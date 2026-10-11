@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KHO HỌC LIỆU SỐ HÓA HỌC - TRƯỜNG THPT KIM ANH</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        display: ['"Space Grotesk"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#fdf4f8',
+                            100: '#fce7f3',
+                            200: '#fbcfe8',
+                            500: '#db2777',
+                            600: '#be185d',
+                            700: '#9d174d',
+                            800: '#831843',
+                            900: '#701a75',
+                        }
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 6s ease-in-out infinite',
+                        'float-slow': 'float 8s ease-in-out infinite',
+                        'float-medium': 'float 5s ease-in-out infinite',
+                        'spin-slow': 'spin 14s linear infinite',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.6', transform: 'scale(1)' },
+                            '50%': { opacity: '0.9', transform: 'scale(1.08)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-12px) rotate(2deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fcf8fa;
+            color: #0f172a;
+        }
+
+        /* Modern Light Pink/Purple Cyber Background */
+        .light-cyber-grid {
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(219, 39, 119, 0.10) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(147, 51, 234, 0.10) 0%, transparent 45%),
+                linear-gradient(to right, rgba(244, 208, 224, 0.25) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(244, 208, 224, 0.25) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+        }
+
+        .glass-panel-light {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(251, 207, 232, 0.8);
+            box-shadow: 0 10px 30px -10px rgba(219, 39, 119, 0.08);
+        }
+
+        .glass-card-light {
+            background: #ffffff;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(251, 207, 232, 0.7);
+            box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card-light:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 35px -8px rgba(219, 39, 119, 0.15);
+        }
+
+        .gradient-text-pink {
+            background: linear-gradient(135deg, #db2777 0%, #9333ea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .view-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .view-section.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fdf4f8;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f472b6;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #db2777;
+        }
+    </style>
+</head>
+<body class="light-cyber-grid antialiased min-h-screen flex flex-col relative overflow-x-hidden selection:bg-pink-500 selection:text-white">
+
+    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+        <div class="absolute top-[-5%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-pink-300/30 blur-[120px] animate-pulse-glow"></div>
+        <div class="absolute top-[25%] right-[-5%] w-[40vw] h-[40vw] rounded-full bg-purple-300/30 blur-[130px] animate-pulse-glow" style="animation-delay: 2s;"></div>
+        <div class="absolute bottom-[-10%] left-[25%] w-[35vw] h-[35vw] rounded-full bg-rose-300/25 blur-[100px] animate-pulse-glow" style="animation-delay: 4s;"></div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-6 right-6 z-[300] flex flex-col space-y-3 pointer-events-none"></div>
+
+    <header class="sticky top-0 z-50 glass-panel-light border-b border-pink-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                
+                <!-- Logo & Brand -->
+                <div class="flex items-center cursor-pointer group" onclick="window.navigateTo('home')">
+                    <div class="relative w-12 h-12 rounded-2xl bg-gradient-to-tr from-pink-600 via-purple-600 to-rose-500 flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-pink-500/30 group-hover:scale-105 transition-all duration-300 mr-3.5">
+                        <i class="fa-solid fa-flask animate-spin-slow"></i>
+                        <span class="absolute inset-0 rounded-2xl bg-pink-400/30 animate-ping opacity-25"></span>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <span class="font-display font-black text-xl sm:text-2xl text-slate-900 tracking-wide">KIM ANH</span>
+                            <span class="text-xs px-2.5 py-0.5 rounded-full bg-pink-100 text-pink-700 font-bold border border-pink-200">STEM 4.0</span>
+                        </div>
+                        <p class="text-xs text-slate-500 font-semibold hidden sm:block">Kho Học Liệu Số Hóa Học THPT</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Buttons -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-2 items-center">
+                    <button onclick="window.navigateTo('home')" class="px-4 py-2.5 rounded-xl text-slate-700 hover:text-pink-600 hover:bg-pink-50 font-bold text-sm transition-all flex items-center space-x-2">
+                        <i class="fa-solid fa-house text-pink-500"></i>
+                        <span>Trang chủ</span>
+                    </button>
+                    
+                    <div class="relative group">
+                        <button onclick="window.navigateTo('grade', 10)" class="px-4 py-2.5 rounded-xl text-slate-700 hover:text-rose-600 hover:bg-rose-50 font-bold text-sm transition-all flex items-center space-x-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-sm"></span>
+                            <span>Khối 10</span>
+                            <i class="fa-solid fa-chevron-down text-[10px] opacity-50 group-hover:rotate-180 transition-transform duration-300"></i>
+                        </button>
+                        <!-- Dropdown Khối 10 -->
+                        <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[340px] bg-white/95 backdrop-blur-xl border border-pink-100 shadow-2xl rounded-3xl max-h-[75vh] overflow-y-auto z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top scale-95 group-hover:scale-100">
+                            <div id="nav-dropdown-10" class="p-3 space-y-1"></div>
+                        </div>
+                    </div>
+
+                    <div class="relative group">
+                        <button onclick="window.navigateTo('grade', 11)" class="px-4 py-2.5 rounded-xl text-slate-700 hover:text-pink-600 hover:bg-pink-50 font-bold text-sm transition-all flex items-center space-x-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-pink-500 shadow-sm"></span>
+                            <span>Khối 11</span>
+                            <i class="fa-solid fa-chevron-down text-[10px] opacity-50 group-hover:rotate-180 transition-transform duration-300"></i>
+                        </button>
+                        <!-- Dropdown Khối 11 -->
+                        <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[340px] bg-white/95 backdrop-blur-xl border border-pink-100 shadow-2xl rounded-3xl max-h-[75vh] overflow-y-auto z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top scale-95 group-hover:scale-100">
+                            <div id="nav-dropdown-11" class="p-3 space-y-1"></div>
+                        </div>
+                    </div>
+
+                    <div class="relative group">
+                        <button onclick="window.navigateTo('grade', 12)" class="px-4 py-2.5 rounded-xl text-slate-700 hover:text-purple-600 hover:bg-purple-50 font-bold text-sm transition-all flex items-center space-x-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-purple-500 shadow-sm"></span>
+                            <span>Khối 12</span>
+                            <i class="fa-solid fa-chevron-down text-[10px] opacity-50 group-hover:rotate-180 transition-transform duration-300"></i>
+                        </button>
+                        <!-- Dropdown Khối 12 -->
+                        <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[340px] bg-white/95 backdrop-blur-xl border border-pink-100 shadow-2xl rounded-3xl max-h-[75vh] overflow-y-auto z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top scale-95 group-hover:scale-100">
+                            <div id="nav-dropdown-12" class="p-3 space-y-1"></div>
+                        </div>
+                    </div>
+
+                    <button onclick="window.navigateTo('admin')" class="ml-2 px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 hover:text-purple-600 hover:bg-purple-50 font-bold text-sm transition-all border border-slate-200 flex items-center space-x-2">
+                        <i class="fa-solid fa-chart-pie text-purple-500"></i>
+                        <span>Thống kê</span>
+                    </button>
+
+                    <!-- Student Info Badge Display -->
+                    <div id="user-info-display" class="hidden items-center space-x-2 bg-pink-50 px-3.5 py-1.5 rounded-full border border-pink-200 ml-2 shadow-sm">
+                        <div class="w-6 h-6 rounded-full bg-pink-600 text-white flex items-center justify-center text-xs shadow-sm">
+                            <i class="fa-solid fa-user-graduate"></i>
+                        </div>
+                        <span id="header-student-name" class="text-xs font-bold text-pink-900"></span>
+                    </div>
+                </nav>
+
+                <!-- Mobile Menu Toggle Button -->
+                <div class="flex md:hidden items-center space-x-2">
+                    <button onclick="window.toggleMobileMenu()" class="p-2.5 rounded-xl bg-white text-slate-700 hover:text-pink-600 border border-slate-200 shadow-sm">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-pink-100 bg-white/95 backdrop-blur-lg px-4 pt-3 pb-6 space-y-2 shadow-xl">
+            <button onclick="window.navigateTo('home'); window.toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-slate-800 hover:bg-pink-50 hover:text-pink-600 font-bold flex items-center space-x-3">
+                <i class="fa-solid fa-house text-pink-500"></i><span>Trang chủ</span>
+            </button>
+            <button onclick="window.navigateTo('grade', 10); window.toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-slate-800 hover:bg-rose-50 hover:text-rose-600 font-bold flex items-center space-x-3">
+                <i class="fa-solid fa-atom text-rose-500"></i><span>Khối 10</span>
+            </button>
+            <button onclick="window.navigateTo('grade', 11); window.toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-slate-800 hover:bg-pink-50 hover:text-pink-600 font-bold flex items-center space-x-3">
+                <i class="fa-solid fa-flask-vial text-pink-500"></i><span>Khối 11</span>
+            </button>
+            <button onclick="window.navigateTo('grade', 12); window.toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-slate-800 hover:bg-purple-50 hover:text-purple-600 font-bold flex items-center space-x-3">
+                <i class="fa-solid fa-dna text-purple-500"></i><span>Khối 12</span>
+            </button>
+            <button onclick="window.navigateTo('admin'); window.toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl text-slate-800 hover:bg-purple-50 hover:text-purple-600 font-bold flex items-center space-x-3">
+                <i class="fa-solid fa-chart-pie text-purple-500"></i><span>Bảng Thống kê</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 relative z-10 flex flex-col">
+        
+        <!-- VIEW: HOME HERO & GRADE CARDS -->
+        <section id="view-home" class="view-section active flex-grow">
+            <div class="space-y-8 sm:space-y-12">
+                
+                <!-- Hero Banner Pink/Purple Theme -->
+                <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-white via-pink-50/70 to-purple-50/70 p-6 sm:p-12 border border-pink-100 shadow-xl shadow-pink-500/5">
+                    <div class="absolute -right-16 -bottom-16 w-80 h-80 bg-gradient-to-br from-pink-400/20 to-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                    
+                    <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                        <div class="lg:col-span-7 space-y-6">
+                            <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-pink-100 border border-pink-200 text-pink-800 font-bold text-xs tracking-wide shadow-sm">
+                                <i class="fa-solid fa-atom text-pink-600 animate-spin" style="animation-duration: 6s;"></i>
+                                <span>KẾT NỐI TRI THỨC VỚI CUỘC SỐNG</span>
+                            </div>
+
+                            <h1 class="font-display text-3xl sm:text-5xl font-black text-slate-900 leading-tight tracking-tight">
+                                Khám Phá Thế Giới <br/>
+                                <span class="gradient-text-pink">Hóa Học Tương Tác</span>
+                            </h1>
+
+                            <p class="text-slate-600 text-sm sm:text-base leading-relaxed max-w-xl font-medium">
+                                Hệ thống kho học liệu số thông minh dành cho học sinh THPT Kim Anh. Trải nghiệm mô phỏng thí nghiệm 3D, game trắc nghiệm tương tác và phòng thí nghiệm ảo chuẩn hóa.
+                            </p>
+
+                            <!-- Quick Feature Badges -->
+                            <div class="pt-2 flex flex-wrap gap-3.5 text-xs sm:text-sm font-bold">
+                                <div class="px-4 py-2.5 rounded-2xl bg-white border border-slate-200 text-slate-700 shadow-sm flex items-center space-x-2.5">
+                                    <i class="fa-solid fa-gamepad text-pink-500 text-lg"></i>
+                                    <span>Game tương tác</span>
+                                </div>
+                                <div class="px-4 py-2.5 rounded-2xl bg-white border border-slate-200 text-slate-700 shadow-sm flex items-center space-x-2.5">
+                                    <i class="fa-solid fa-vials text-rose-500 text-lg"></i>
+                                    <span>Thí nghiệm ảo</span>
+                                </div>
+                                <div class="px-4 py-2.5 rounded-2xl bg-white border border-slate-200 text-slate-700 shadow-sm flex items-center space-x-2.5">
+                                    <i class="fa-solid fa-microscope text-purple-500 text-lg"></i>
+                                    <span>Thí nghiệm mô phỏng</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hero Graphic Card -->
+                        <div class="lg:col-span-5 relative flex justify-center items-center">
+                            <div class="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden border border-slate-200 shadow-2xl group bg-white p-2">
+                                <div class="relative w-full h-full rounded-2xl overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80" alt="Chemistry Lab" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent"></div>
+                                    
+                                    <div class="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-white/90 backdrop-blur-md border border-white/60 shadow-lg">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-10 h-10 rounded-xl bg-pink-600 text-white flex items-center justify-center text-xl font-bold shadow-md shadow-pink-500/30">
+                                                <i class="fa-solid fa-lightbulb"></i>
+                                            </div>
+                                            <div>
+                                                <h4 class="text-sm font-bold text-slate-900">Học qua trải nghiệm</h4>
+                                                <p class="text-xs text-slate-600 font-medium">Trực quan - Dễ hiểu - Nhớ lâu</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="max-w-2xl mx-auto relative">
+                    <div class="relative flex items-center">
+                        <i class="fa-solid fa-magnifying-glass absolute left-5 text-pink-500 text-lg pointer-events-none"></i>
+                        <input type="text" id="global-search-input" oninput="window.handleGlobalSearch(this.value)" placeholder="Tìm kiếm nhanh tên bài học, từ khóa (VD: Ester, Nitrogen, Nguyên tử...)" class="w-full pl-13 pr-10 py-4 rounded-2xl bg-white border border-pink-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-pink-500 focus:ring-4 focus:ring-pink-500/15 shadow-lg shadow-pink-500/5 text-sm sm:text-base font-medium transition-all">
+                        <button id="search-clear-btn" onclick="window.clearSearch()" class="hidden absolute right-4 text-slate-400 hover:text-slate-600 p-1">
+                            <i class="fa-solid fa-xmark text-lg"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Search Dropdown Results -->
+                    <div id="search-results-dropdown" class="hidden absolute left-0 right-0 top-full mt-3 rounded-2xl bg-white border border-slate-200 shadow-2xl z-50 max-h-80 overflow-y-auto p-2 space-y-1">
+                    </div>
+                </div>
+
+                <!-- Section Title -->
+                <div>
+                    <h2 class="font-display text-2xl sm:text-3xl font-bold text-slate-900 flex items-center mb-2">
+                        <i class="fa-solid fa-layer-group text-pink-500 mr-3"></i>
+                        Chương Trình Học Theo Khối Lớp
+                    </h2>
+                    <p class="text-slate-600 text-sm font-medium">Chọn khối lớp để truy cập danh sách các bài học tương tác</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                    
+                    <!-- Grade 10 Card -->
+                    <div onclick="window.navigateTo('grade', 10)" class="group cursor-pointer rounded-3xl glass-card-light p-6 border-l-4 border-l-rose-500 border-slate-200/80 hover:border-rose-400 transition-all duration-300 relative overflow-hidden flex flex-col justify-between h-full">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-rose-100/60 rounded-full blur-2xl group-hover:bg-rose-200/60 transition-all"></div>
+                        
+                        <div>
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-rose-500 to-pink-500 text-white flex items-center justify-center font-display text-2xl font-black shadow-lg shadow-rose-500/30 group-hover:scale-110 transition-transform">
+                                    10
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-rose-100 text-rose-800 text-xs font-bold border border-rose-200">7 Chương</span>
+                            </div>
+
+                            <h3 class="font-display text-xl font-bold text-slate-900 group-hover:text-rose-600 transition-colors mb-2">Hóa học 10</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-6 line-clamp-2 font-medium">
+                                Cấu tạo nguyên tử, Bảng tuần hoàn, Liên kết hóa học, Phản ứng Oxi hóa - Khử, Năng lượng & Tốc độ phản ứng.
+                            </p>
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-rose-600 group-hover:text-rose-700">
+                            <span>Khám phá bài học</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1.5 transition-transform"></i>
+                        </div>
+                    </div>
+
+                    <!-- Grade 11 Card -->
+                    <div onclick="window.navigateTo('grade', 11)" class="group cursor-pointer rounded-3xl glass-card-light p-6 border-l-4 border-l-pink-500 border-slate-200/80 hover:border-pink-400 transition-all duration-300 relative overflow-hidden flex flex-col justify-between h-full">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-pink-100/60 rounded-full blur-2xl group-hover:bg-pink-200/60 transition-all"></div>
+
+                        <div>
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-pink-600 to-rose-500 text-white flex items-center justify-center font-display text-2xl font-black shadow-lg shadow-pink-500/30 group-hover:scale-110 transition-transform">
+                                    11
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-pink-100 text-pink-800 text-xs font-bold border border-pink-200">4 Chương</span>
+                            </div>
+
+                            <h3 class="font-display text-xl font-bold text-slate-900 group-hover:text-pink-600 transition-colors mb-2">Hóa học 11</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-6 line-clamp-2 font-medium">
+                                Cân bằng hóa học, Nitrogen - Sulfur, Hóa học hữu cơ, Hydrocarbon, Dẫn xuất Halogen, Alcohol & Carbonyl.
+                            </p>
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-pink-600 group-hover:text-pink-700">
+                            <span>Khám phá bài học</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1.5 transition-transform"></i>
+                        </div>
+                    </div>
+
+                    <!-- Grade 12 Card -->
+                    <div onclick="window.navigateTo('grade', 12)" class="group cursor-pointer rounded-3xl glass-card-light p-6 border-l-4 border-l-purple-500 border-slate-200/80 hover:border-purple-400 transition-all duration-300 relative overflow-hidden flex flex-col justify-between h-full">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-purple-100/60 rounded-full blur-2xl group-hover:bg-purple-200/60 transition-all"></div>
+
+                        <div>
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-500 text-white flex items-center justify-center font-display text-2xl font-black shadow-lg shadow-purple-500/30 group-hover:scale-110 transition-transform">
+                                    12
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-xs font-bold border border-purple-200">5 Chương</span>
+                            </div>
+
+                            <h3 class="font-display text-xl font-bold text-slate-900 group-hover:text-purple-600 transition-colors mb-2">Hóa học 12</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-6 line-clamp-2 font-medium">
+                                Ester - Lipid, Carbohydrate, Hợp chất Nitrogen, Polymer, Pin điện - Điện phân, Đại cương Kim loại.
+                            </p>
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-purple-600 group-hover:text-purple-700">
+                            <span>Khám phá bài học</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1.5 transition-transform"></i>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="view-grade" class="view-section">
+            <div class="space-y-6">
+                <!-- Back Header -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200">
+                    <div>
+                        <button onclick="window.navigateTo('home')" class="text-slate-500 hover:text-pink-600 font-bold text-sm inline-flex items-center space-x-2 transition-colors mb-3">
+                            <i class="fa-solid fa-chevron-left text-xs"></i>
+                            <span>Quay lại Trang chủ</span>
+                        </button>
+                        <div class="flex items-center space-x-4">
+                            <div id="grade-badge-container" class="w-12 h-12 rounded-2xl bg-pink-600 text-white font-display font-black text-2xl flex items-center justify-center shadow-lg shadow-pink-500/30">
+                                <span id="grade-title-num">10</span>
+                            </div>
+                            <div>
+                                <h2 class="font-display text-2xl sm:text-3xl font-black text-slate-900">Chương Trình Hóa Học <span id="grade-title-text">10</span></h2>
+                                <p class="text-xs sm:text-sm text-slate-500 font-semibold mt-0.5">Sách giáo khoa: Kết nối tri thức với cuộc sống</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lessons Grid -->
+                <div id="lessons-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Dynamic lesson cards injected via JS -->
+                </div>
+            </div>
+        </section>
+
+        <section id="view-lesson" class="view-section">
+            <div class="space-y-8 max-w-5xl mx-auto">
+                <div>
+                    <button onclick="window.navigateBackToGrade()" class="text-slate-500 hover:text-pink-600 font-bold text-sm inline-flex items-center space-x-2 transition-colors mb-4">
+                        <i class="fa-solid fa-chevron-left text-xs"></i>
+                        <span>Quay lại danh sách bài học Khối <span id="back-grade-text">10</span></span>
+                    </button>
+                    
+                    <div class="rounded-3xl bg-white p-6 sm:p-10 border border-slate-200 shadow-xl shadow-pink-500/5 relative overflow-hidden">
+                        <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-pink-100/80 rounded-full blur-3xl"></div>
+                        <span id="lesson-chapter" class="inline-block px-3.5 py-1 rounded-full bg-pink-100 border border-pink-200 text-pink-800 text-xs font-bold uppercase tracking-wider mb-3">Chương 1</span>
+                        <h2 id="lesson-title" class="font-display text-2xl sm:text-4xl font-black text-slate-900 mb-3">Tên bài học</h2>
+                        <p id="lesson-desc" class="text-slate-600 text-sm sm:text-base leading-relaxed max-w-3xl font-medium">Mô tả chi tiết bài học</p>
+                    </div>
+                </div>
+
+                <div class="text-center pt-2">
+                    <h3 class="font-display text-xl sm:text-2xl font-bold text-slate-900 mb-1">Hoạt Động Tương Tác</h3>
+                    <p class="text-slate-500 text-sm font-medium">Lựa chọn các phương thức trải nghiệm bài học bên dưới</p>
+                </div>
+
+                <!-- Interactive Activity Player Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- Game Card -->
+                    <button id="btn-game" class="group rounded-3xl glass-card-light p-8 text-center flex flex-col items-center justify-between border-t-4 border-t-pink-500 relative">
+                        <span id="badge-game-count" class="absolute top-4 right-4 bg-pink-100 text-pink-700 text-xs font-bold px-2 py-1 rounded-lg border border-pink-200 shadow-sm hidden">0 Game</span>
+                        <div class="w-20 h-20 rounded-2xl bg-pink-50 border border-pink-100 text-pink-600 flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform shadow-md shadow-pink-500/10">
+                            <i class="fa-solid fa-gamepad"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-display text-lg font-bold text-slate-900 mb-2 group-hover:text-pink-600 transition-colors">Game Học Tập</h4>
+                            <p class="text-slate-500 text-xs sm:text-sm leading-relaxed mb-6 font-medium">Củng cố kiến thức bằng các trò chơi trắc nghiệm sinh động.</p>
+                        </div>
+                        <span class="w-full py-3 rounded-xl bg-pink-50 text-pink-700 border border-pink-200 font-bold text-sm group-hover:bg-pink-600 group-hover:text-white transition-all shadow-sm">
+                            Bắt đầu chơi
+                        </span>
+                    </button>
+
+                    <!-- Lab Card -->
+                    <button id="btn-lab" class="group rounded-3xl glass-card-light p-8 text-center flex flex-col items-center justify-between border-t-4 border-t-rose-500 relative">
+                        <span id="badge-lab-count" class="absolute top-4 right-4 bg-rose-100 text-rose-700 text-xs font-bold px-2 py-1 rounded-lg border border-rose-200 shadow-sm hidden">0 TN</span>
+                        <div class="w-20 h-20 rounded-2xl bg-rose-50 border border-rose-100 text-rose-600 flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform shadow-md shadow-rose-500/10">
+                            <i class="fa-solid fa-vials"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-display text-lg font-bold text-slate-900 mb-2 group-hover:text-rose-600 transition-colors">Thí Nghiệm Ảo</h4>
+                            <p class="text-slate-500 text-xs sm:text-sm leading-relaxed mb-6 font-medium">Thao tác phản ứng hóa học an toàn trên môi trường số.</p>
+                        </div>
+                        <span class="w-full py-3 rounded-xl bg-rose-50 text-rose-700 border border-rose-200 font-bold text-sm group-hover:bg-rose-600 group-hover:text-white transition-all shadow-sm">
+                            Thực hành ngay
+                        </span>
+                    </button>
+
+                    <!-- Simulation Card -->
+                    <button id="btn-sim" class="group rounded-3xl glass-card-light p-8 text-center flex flex-col items-center justify-between border-t-4 border-t-purple-500 relative">
+                        <span id="badge-sim-count" class="absolute top-4 right-4 bg-purple-100 text-purple-700 text-xs font-bold px-2 py-1 rounded-lg border border-purple-200 shadow-sm hidden">0 Mục</span>
+                        <div class="w-20 h-20 rounded-2xl bg-purple-50 border border-purple-100 text-purple-600 flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform shadow-md shadow-purple-500/10">
+                            <i class="fa-solid fa-microscope"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-display text-lg font-bold text-slate-900 mb-2 group-hover:text-purple-600 transition-colors">Thí Nghiệm Mô Phỏng</h4>
+                            <p class="text-slate-500 text-xs sm:text-sm leading-relaxed mb-6 font-medium">Quan sát chuyển động phân tử và cơ chế phản ứng cấp vi mô.</p>
+                        </div>
+                        <span class="w-full py-3 rounded-xl bg-purple-50 text-purple-700 border border-purple-200 font-bold text-sm group-hover:bg-purple-600 group-hover:text-white transition-all shadow-sm">
+                            Quan sát 3D
+                        </span>
+                    </button>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="view-admin" class="view-section">
+            <div class="space-y-6">
+                <div>
+                    <button onclick="window.navigateTo('home')" class="text-slate-500 hover:text-pink-600 font-bold text-sm inline-flex items-center space-x-2 transition-colors mb-4">
+                        <i class="fa-solid fa-chevron-left text-xs"></i><span>Quay lại Trang chủ</span>
+                    </button>
+                    <div class="rounded-3xl bg-white p-6 sm:p-8 border border-slate-200 shadow-xl shadow-pink-500/5 flex justify-between items-center">
+                        <div>
+                            <h2 class="font-display text-2xl font-black text-slate-900">Thống Kê Nhật Ký Học Tập</h2>
+                            <p class="text-slate-500 text-sm font-semibold mt-1">Dành cho Giáo viên: Theo dõi tiến độ tương tác của học sinh theo thời gian thực</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-2xl shadow-sm">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Logs Table Card -->
+                <div class="rounded-3xl bg-white border border-slate-200 overflow-hidden shadow-xl shadow-slate-200/50">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left min-w-[650px]">
+                            <thead class="bg-slate-100 text-slate-700 text-xs uppercase font-bold border-b border-slate-200 tracking-wider">
+                                <tr>
+                                    <th class="py-4 px-6">Thời gian</th>
+                                    <th class="py-4 px-6">Họ và Tên</th>
+                                    <th class="py-4 px-6">Lớp</th>
+                                    <th class="py-4 px-6">Hoạt động ghi nhận</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-logs-body" class="divide-y divide-slate-100 text-sm text-slate-800">
+                                <tr>
+                                    <td colspan="4" class="text-center py-12 text-slate-400">
+                                        <i class="fa-solid fa-spinner fa-spin text-2xl mb-2 text-pink-500"></i><br/>Đang kết nối dữ liệu máy chủ...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-pink-100 bg-white/80 backdrop-blur-md mt-auto py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500 font-medium">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-flask text-pink-600 text-base"></i>
+                <span class="font-bold text-slate-800">Kho Học Liệu Số Hóa Học - THPT Kim Anh &copy; 2026</span>
+            </div>
+            <p class="text-center md:text-right">
+                Xây dựng chuẩn theo Chương trình SGK Hóa Học - Bộ Kết nối tri thức với cuộc sống.
+            </p>
+        </div>
+    </footer>
+
+    <div id="activity-modal" class="fixed inset-0 z-[200] hidden flex items-center justify-center p-2 sm:p-4 transition-all duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onclick="window.closeModal()"></div>
+        
+        <div id="activity-modal-wrapper" class="relative w-full max-w-6xl z-10 my-auto transition-all duration-300">
+            <div id="activity-modal-inner" class="bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-700 flex flex-col h-[85vh] max-h-[820px] transition-all duration-300">
+                
+                <!-- Modal Topbar -->
+                <div class="bg-slate-800/90 px-4 sm:px-6 py-3.5 flex justify-between items-center border-b border-slate-700/80 shrink-0">
+                    <div class="flex items-center space-x-3 overflow-hidden">
+                        <div id="modal-icon" class="w-9 h-9 rounded-xl bg-pink-500/20 text-pink-400 flex items-center justify-center text-lg shrink-0">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <h3 id="modal-title" class="text-sm sm:text-base font-bold text-white truncate">Tên hoạt động</h3>
+                            <p id="modal-lesson-ref" class="text-xs text-slate-400 truncate">Bài học liên quan</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-2 shrink-0">
+                        <button onclick="window.openCurrentUrlInNewTab()" class="hidden md:flex px-3 py-1.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-100 text-xs font-semibold items-center space-x-1.5 transition-colors">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i><span>Mở tab mới</span>
+                        </button>
+                        <button id="btn-fullscreen" onclick="window.toggleFullScreen()" class="w-9 h-9 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-100 flex items-center justify-center text-sm transition-colors" title="Toàn màn hình">
+                            <i class="fa-solid fa-expand"></i>
+                        </button>
+                        <button onclick="window.closeModal()" class="w-9 h-9 rounded-xl bg-red-500/20 hover:bg-red-500/30 text-red-300 flex items-center justify-center text-base transition-colors" title="Đóng">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modal Body Screen -->
+                <div id="modal-body-content" class="flex-grow bg-slate-950 relative w-full h-full overflow-y-auto">
+                    <!-- Dynamic iFrame / activity list loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="login-modal" class="fixed inset-0 z-[250] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md"></div>
+        <div class="rounded-3xl bg-white p-8 sm:p-10 border border-slate-200 shadow-2xl w-full max-w-md relative z-10">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 rounded-2xl bg-pink-100 text-pink-600 flex items-center justify-center text-3xl mx-auto mb-4 border border-pink-200 shadow-md">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+                <h3 class="font-display text-2xl font-black text-slate-900 mb-1">Chào mừng học sinh!</h3>
+                <p class="text-xs text-slate-500 font-semibold">Vui lòng nhập thông tin để hệ thống ghi nhận kết quả học tập nhé.</p>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Họ và tên học sinh</label>
+                    <input type="text" id="student-name" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-sm font-medium" placeholder="VD: Nguyễn Văn A">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Lớp học</label>
+                    <input type="text" id="student-class" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-sm font-medium" placeholder="VD: 10A1">
+                </div>
+                <button id="btn-login-submit" onclick="window.submitLogin()" class="w-full py-3.5 mt-2 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white font-bold text-sm shadow-lg shadow-pink-500/30 transition-all">
+                    Bắt Đầu Học Ngay
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Curriculum Database (Structured according to 'Kết nối tri thức')
+        const curriculumData = {
+            10: [
+                {
+                    chapter: "Chương 1: Cấu tạo nguyên tử",
+                    lessons: [
+                        { id: "l10_1", title: "Bài 1: Thành phần của nguyên tử", desc: "Tìm hiểu về electron, proton, neutron và hạt nhân nguyên tử.", games: [{ name: "Game Bài 1: Thành phần nguyên tử", url: "https://gamehoa10bai1.netlify.app/" }], labs: [], simulations: [{ name: "PhET: Xây dựng Nguyên tử", url: "https://phet.colorado.edu/sims/html/build-an-atom/latest/build-an-atom_all.html" }] },
+                        { id: "l10_2", title: "Bài 2: Nguyên tố hóa học", desc: "Đồng vị, nguyên tử khối và nguyên tử khối trung bình.", games: [{ name: "Game Bài 2: Nguyên tố hóa học", url: "https://gamehoa10bai2.netlify.app" }], labs: [], simulations: [{ name: "PhET: Đồng vị & Nguyên tử khối", url: "https://phet.colorado.edu/sims/html/isotopes-and-atomic-mass/latest/isotopes-and-atomic-mass_all.html" }] },
+                        { id: "l10_3", title: "Bài 3: Cấu trúc lớp vỏ electron nguyên tử", desc: "Sự chuyển động của electron, lớp, phân lớp và cấu hình electron.", games: [{ name: "Game Bài 3: Cấu trúc lớp vỏ", url: "https://gamehoa10bai3.netlify.app" }, { name: "Game Bài 3 (Bản 2)", url: "https://gamehoa10bai3-2.netlify.app" }], labs: [], simulations: [{ name: "Mô phỏng cấu trúc lớp vỏ electron", url: "https://mophong-hoa.netlify.app/" }, { name: "Mô phỏng Orbital Nguyên tử", url: "https://orbital-hoahoc.netlify.app" }] },
+                        { id: "l10_4", title: "Bài 4: Ôn tập chương 1", desc: "Ôn tập và hệ thống hóa kiến thức cấu tạo nguyên tử.", games: [{ name: "Game Bài 4: Ôn tập chương 1", url: "https://gamehoa10bai4.netlify.app/" }], labs: [], simulations: [] }
+                    ]
+                },
+                { 
+                    chapter: "Chương 2: Bảng tuần hoàn các nguyên tố hóa học", 
+                    lessons: [
+                        { id: "l10_5", title: "Bài 5: Cấu tạo của bảng tuần hoàn", desc: "Ô nguyên tố, chu kì, nhóm và sự phân loại nguyên tố.", games: [{ name: "Game Bài 5: Cấu tạo bảng tuần hoàn", url: "https://gamehoa10bai5.netlify.app/" }], labs: [{ name: "Bảng tuần hoàn tương tác", url: "https://bangtuanhoantuongtac.netlify.app" }], simulations: [{ name: "Mô phỏng Bảng tuần hoàn 3D", url: "https://bang-tuan-hoan-hoa-hoc.netlify.app" }] },
+                        { id: "l10_6", title: "Bài 6: Xu hướng biến đổi một số tính chất...", desc: "Bán kính nguyên tử, độ âm điện, tính kim loại - phi kim.", games: [{ name: "Game Bài 6: Xu hướng biến đổi tính chất", url: "https://gamehoa10bai6.netlify.app/" }], labs: [], simulations: [{ name: "Mô phỏng Bài 6", url: "https://mophonghoa10bai6.netlify.app" }] },
+                        { id: "l10_7", title: "Bài 7: Xu hướng biến đổi thành phần tính chất hợp chất...", desc: "Biến đổi tính acid - base của các oxide và hydroxide.", games: [{ name: "Game Bài 7: Tính chất hợp chất", url: "https://gamehoa10bai7.netlify.app" }], labs: [], simulations: [] },
+                        { id: "l10_8", title: "Bài 8: Định luật tuần hoàn và ý nghĩa", desc: "Mối liên hệ giữa cấu hình electron và tính chất.", games: [{ name: "Game Bài 8", url: "https://gamehoa10bai8.netlify.app" }], labs: [], simulations: [] },
+                        { id: "l10_9", title: "Bài 9: Ôn tập chương 2", desc: "Hệ thống kiến thức bảng tuần hoàn.", games: [{ name: "Game Bài 9: Ôn tập", url: "https://gamehoa10bai9.netlify.app" }], labs: [], simulations: [] }
+                    ]
+                },
+                { 
+                    chapter: "Chương 3: Liên kết hóa học", 
+                    lessons: [
+                        { id: "l10_10", title: "Bài 10: Quy tắc octet", desc: "Sự hình thành lớp vỏ bền vững.", games: [{ name: "Game Bài 10: Quy tắc octet", url: "https://gamehoa10bai10.netlify.app" }], labs: [], simulations: [{ name: "PhET: Xây dựng Phân tử", url: "https://phet.colorado.edu/sims/html/build-a-molecule/latest/build-a-molecule_all.html" }] },
+                        { id: "l10_11", title: "Bài 11: Liên kết ion", desc: "Sự hình thành liên kết ion và tinh thể ion.", games: [{ name: "Game Liên kết ion", url: "https://gamehoa10lienketion.netlify.app/" }], labs: [{ name: "Mô phỏng Liên kết ion", url: "https://mophonghoa10lienketion.netlify.app" }], simulations: [{ name: "PhET: Xây dựng Phân tử", url: "https://phet.colorado.edu/sims/html/build-a-molecule/latest/build-a-molecule_all.html" }] },
+                        { id: "l10_12", title: "Bài 12: Liên kết cộng hóa trị", desc: "Sự hình thành liên kết cộng hóa trị.", games: [{ name: "Game Liên kết cộng hóa trị", url: "https://gamehoa10lienketconghoatri.netlify.app" }], labs: [], simulations: [{ name: "PhET: Hình học Phân tử", url: "https://phet.colorado.edu/sims/html/molecule-shapes/latest/molecule-shapes_all.html" }, { name: "PhET: Xây dựng Phân tử", url: "https://phet.colorado.edu/sims/html/build-a-molecule/latest/build-a-molecule_all.html" }] },
+                        { id: "l10_13", title: "Bài 13: Liên kết hydrogen và tương tác van der Waals", desc: "Các lực liên kết yếu.", games: [{ name: "Game Bài 13: Liên kết hydrogen", url: "https://gamehoa10bai13.netlify.app/" }], labs: [], simulations: [] },
+                        { id: "l10_14", title: "Bài 14: Ôn tập chương 3", desc: "Ôn tập liên kết hóa học.", games: [{ name: "Game Ôn tập Chương 3 – Liên kết hóa học", url: "https://stunning-gnome-807a62.netlify.app" }], labs: [], simulations: [] }
+                    ]
+                },
+                { 
+                    chapter: "Chương 4: Phản ứng oxi hóa - khử", 
+                    lessons: [
+                        { id: "l10_15", title: "Bài 15: Phản ứng oxi hóa - khử", desc: "Khái niệm và cách lập phương trình.", games: [], labs: [], simulations: [] },
+                        { id: "l10_16", title: "Bài 16: Ôn tập chương 4", desc: "Hệ thống kiến thức chương 4.", games: [], labs: [], simulations: [] }
+                    ]
+                },
+                { 
+                    chapter: "Chương 5: Năng lượng hóa học", 
+                    lessons: [
+                        { id: "l10_17", title: "Bài 17: Biến thiên enthalpy", desc: "Sự thay đổi năng lượng trong các phản ứng hóa học.", games: [], labs: [], simulations: [] },
+                        { id: "l10_18", title: "Bài 18: Ôn tập chương 5", desc: "Tổng hợp kiến thức năng lượng hóa học.", games: [], labs: [], simulations: [] }
+                    ]
+                },
+                { 
+                    chapter: "Chương 6: Tốc độ phản ứng hóa học", 
+                    lessons: [
+                        { id: "l10_19", title: "Bài 19: Tốc độ phản ứng hóa học", desc: "Các yếu tố ảnh hưởng đến tốc độ phản ứng.", games: [], labs: [], simulations: [{ name: "PhET: Chất tham gia & Sản phẩm", url: "https://phet.colorado.edu/sims/html/reactants-products-and-leftovers/latest/reactants-products-and-leftovers_all.html" }] },
+                        { id: "l10_20", title: "Bài 20: Ôn tập chương 6", desc: "Ôn tập tốc độ phản ứng.", games: [], labs: [], simulations: [] }
+                    ]
+                },
+                { 
+                    chapter: "Chương 7: Nhóm Halogen (VIIA)", 
+                    lessons: [
+                        { id: "l10_21", title: "Bài 21: Nhóm Halogen", desc: "Tính chất vật lí và hóa học các đơn chất Halogen.", games: [], labs: [], simulations: [{ name: "PhET: Tính chất chất khí", url: "https://phet.colorado.edu/sims/html/gas-properties/latest/gas-properties_all.html" }] },
+                        { id: "l10_22", title: "Bài 22: Hydrogen halide. Muối halide", desc: "Tính chất của hydrogen halide.", games: [], labs: [], simulations: [] },
+                        { id: "l10_23", title: "Bài 23: Ôn tập chương 7", desc: "Hệ thống kiến thức nhóm Halogen.", games: [], labs: [], simulations: [] }
+                    ]
+                }
+            ],
+            11: [
+                { 
+                    chapter: "Chương 1: Cân bằng hóa học", 
+                    lessons: [
+                        { id: "l11_1", title: "Bài 1: Khái niệm về cân bằng hóa học", desc: "Phản ứng thuận nghịch, trạng thái cân bằng.", games: [{ name: "Game Bài 1: Cân bằng hóa học", url: "https://gamehoa11bai1.netlify.app" }], labs: [], simulations: [{ name: "Mô phỏng Thí nghiệm điện li", url: "https://mophonghoa11bai1tndienli.netlify.app/" }] },
+                        { id: "l11_2", title: "Bài 2: Cân bằng trong dung dịch nước", desc: "Sự điện li, pH, chuẩn độ acid-base.", games: [{ name: "Mô phỏng pH cơ thể người", url: "https://mophonghoa11bai2phtrongcothenguoi.netlify.app/" }], labs: [{ name: "Thí nghiệm ảo đo pH", url: "https://thinghiemaohoa11ph.netlify.app" }], simulations: [{ name: "PhET: Thang pH", url: "https://phet.colorado.edu/sims/html/ph-scale/latest/ph-scale_all.html" }, { name: "PhET: Dung dịch Acid-Base", url: "https://phet.colorado.edu/sims/html/acid-base-solutions/latest/acid-base-solutions_all.html" }] },
+                        { id: "l11_3", title: "Bài 3: Ôn tập chương 1", desc: "Củng cố kiến thức Cân bằng hóa học.", games: [{ name: "Game Ôn tập Chương 1", url: "https://gamehoa11oontapchuong1.netlify.app/" }], labs: [], simulations: [] }
+                    ]
+                },
+                { 
+                    chapter: "Chương 2: Nitrogen và Sulfur", 
+                    lessons: [
+                        { id: "l11_4", title: "Bài 4: Nitrogen", desc: "Tính chất của đơn chất Nitrogen.", games: [{ name: "Game Bài 4: Nitrogen", url: "https://gamehoa11nitrogen.netlify.app" }], labs: [], simulations: [{ name: "Mô phỏng Chuyển hóa Nitrogen", url: "https://mophonghoa11chuyenhoanito.netlify.app" }] },
+                        { id: "l11_5", title: "Bài 5: Ammonia và Muối ammonium", desc: "Tính chất của NH3 và muối ammonium.", games: [{ name: "Game Bài 5: Ammonia", url: "https://gamehoa10bbainh3.netlify.app" }], labs: [{ name: "Thí nghiệm ảo tính tan của NH3", url: "https://tnaohoa11tinhtannh3.netlify.app/" }], simulations: [] },
+                        { id: "l11_6", title: "Bài 6: Oxides của nitrogen và nitric acid", desc: "NO, NO2, HNO3 và hiện tượng mưa acid.", games: [{ name: "Game Bài 6: HNO3", url: "https://gamehoa11hno3.netlify.app" }], labs: [{ name: "Thí nghiệm ảo Mưa acid", url: "https://thinghiemaohoa11muaacid.netlify.app" }], simulations: [] },
+                        { id: "l11_7", title: "Bài 7: Sulfur và Sulfur dioxide", desc: "Đơn chất Sulfur và khí SO2.", games: [{ name: "Game Bài 7: Sulfur & SO2", url: "https://gamehoa11bais.netlify.app" }], labs: [{ name: "Thí nghiệm ảo S và các dạng thù hình", url: "https://tnaohoa11svacacdangthuhinh.netlify.app/" }], simulations: [] },
+                        { id: "l11_8", title: "Bài 8: Sulfuric acid và Muối sulfate", desc: "Tính chất, ứng dụng của H2SO4.", games: [{ name: "Game Bài 8: H2SO4", url: "https://gamehoa11h2so4.netlify.app" }], labs: [{ name: "Thí nghiệm ảo pha loãng H2SO4", url: "https://thaohoa11cachphaloangcuah2so4.netlify.app" }], simulations: [] },
+                        { id: "l11_9", title: "Bài 9: Ôn tập chương 2", desc: "Tổng kết kiến thức Nitrogen & Sulfur.", games: [{ name: "Game Bài 9: Ôn tập", url: "https://gamehoa11bai9.netlify.app/" }], labs: [], simulations: [] }
+                    ]
+                },
+                { 
+                    chapter: "Chương 3: Đại cương Hóa học hữu cơ", 
+                    lessons: [
+                        { id: "l11_10", title: "Bài 10: Hợp chất hữu cơ và hóa học hữu cơ", desc: "Khái niệm và đặc điểm chung.", games: [{ name: "Game Bài 10: Hợp chất hữu cơ", url: "https://gamehoa11bai10.netlify.app/" }], labs: [], simulations: [{ name: "PhET: Xây dựng Phân tử", url: "https://phet.colorado.edu/sims/html/build-a-molecule/latest/build-a-molecule_all.html" }] },
+                        { id: "l11_11", title: "Bài 11: Phương pháp tách biệt hợp chất hữu cơ", desc: "Chưng cất, chiết, kết tinh...", games: [], labs: [], simulations: [] },
+                        { id: "l11_12", title: "Bài 12: Công thức phân tử hợp chất hữu cơ", desc: "Thiết lập công thức phân tử.", games: [], labs: [], simulations: [] },
+                        { id: "l11_13", title: "Bài 13: Cấu tạo hóa học hợp chất hữu cơ", desc: "Đồng đẳng, đồng phân, thuyết cấu tạo.", games: [], labs: [], simulations: [{ name: "PhET: Hình học Phân tử", url: "https://phet.colorado.edu/sims/html/molecule-shapes/latest/molecule-shapes_all.html" }] },
+                        { id: "l11_14", title: "Bài 14: Ôn tập chương 3", desc: "Tổng kết Đại cương hữu cơ.", games: [], labs: [], simulations: [] }
+                    ]
+                },
+                { 
+                    chapter: "Chương 4: Hydrocarbon", 
+                    lessons: [
+                        { id: "l11_15", title: "Bài 15: Alkane", desc: "Cấu tạo, danh pháp và tính chất của Alkane.", games: [], labs: [], simulations: [] },
+                        { id: "l11_16", title: "Bài 16: Hydrocarbon không no", desc: "Alkene và Alkyne.", games: [], labs: [], simulations: [] },
+                        { id: "l11_17", title: "Bài 17: Arene (Hydrocarbon thơm)", desc: "Benzene và dãy đồng đẳng.", games: [], labs: [], simulations: [] },
+                        { id: "l11_18", title: "Bài 18: Ôn tập chương 4", desc: "Tổng kết Hydrocarbon.", games: [], labs: [], simulations: [] }
+                    ]
+                }
+            ],
+            12: [
+                { 
+                    chapter: "Chương 1: Ester – Lipid", 
+                    lessons: [
+                        { id: "l12_1", title: "Bài 1: Ester - Lipid", desc: "Cấu tạo, danh pháp và tính chất hóa học.", games: [{ name: "Game Ester - Lipid", url: "https://gamehoa12bai1ester.netlify.app" }, { name: "Game Chất béo", url: "https://gamehoa12chatbeo.netlify.app" }], labs: [{ name: "Thí nghiệm Phản ứng Ester hóa", url: "https://mophonghoa12putpester.netlify.app" }], simulations: [] },
+                        { id: "l12_2", title: "Bài 2: Xà phòng và chất giặt rửa", desc: "Thành phần và cơ chế giặt rửa.", games: [{ name: "Game Xà phòng & Chất giặt rửa", url: "https://gamehoa12xaphongvachatgiatrua.netlify.app" }], labs: [{ name: "Mô phỏng Cơ chế tẩy rửa xà phòng", url: "https://mophonghoa12cochetayrua.netlify.app" }], simulations: [{ name: "Mô phỏng Cơ chế tẩy rửa của xà phòng", url: "https://mophonghoa12cochetayrua.netlify.app" }] },
+                        { id: "l12_3", title: "Bài 3: Ôn tập chương 1", desc: "Ôn tập tổng hợp Ester, Lipid, Xà phòng.", games: [{ name: "Game Ôn tập Chương 1", url: "https://gamehoa12ontapchuong1.netlify.app" }], labs: [], simulations: [] }
+                    ]
+                },
+                { 
+                    chapter: "Chương 2: Carbohydrate", 
+                    lessons: [
+                        { id: "l12_4", title: "Bài 4: Giới thiệu Carbohydrate. Glucose & Fructose", desc: "Cấu tạo và tính chất monosaccharide.", games: [{ name: "Game Glucose", url: "https://gamehoa12glucose.netlify.app" }], labs: [], simulations: [] },
+                        { id: "l12_5", title: "Bài 5: Saccharose và Maltose", desc: "Cấu tạo và tính chất disaccharide.", games: [{ name: "Game Bài 5: Saccharose & Maltose", url: "https://gamehoa12bai5.netlify.app" }], labs: [], simulations: [{ name: "Mô phỏng Saccharose & Maltose", url: "https://mophonghoa12bai5.netlify.app/" }, { name: "Mô phỏng cấu tạo đường đôi", url: "https://mophonghoa12cautaoduongdoi.netlify.app/" }] },
+                        { id: "l12_6", title: "Bài 6: Tinh bột và Cellulose", desc: "Polysaccharide trong tự nhiên.", games: [{ name: "Game Bài 6: Tinh bột & Cellulose", url: "https://gamehoa12bai6.netlify.app" }], labs: [], simulations: [{ name: "Mô phỏng tính chất Cellulose", url: "https://mophoghoa12tccuacellulose.netlify.app/" }] },
+                        { id: "l12_7", title: "Bài 7: Ôn tập chương 2", desc: "Hệ thống kiến thức Carbohydrate.", games: [{ name: "Game Ôn tập Chương 2", url: "https://gamehoa12bai7.netlify.app" }], labs: [], simulations: [] }
+                    ]
+                },
+                { 
+                    chapter: "Chương 3: Hợp chất chứa Nitrogen", 
+                    lessons: [
+                        { id: "l12_8", title: "Bài 8: Amine", desc: "Cấu tạo, danh pháp và tính chất của Amine.", games: [{ name: "Game Bài 8: Amine", url: "https://gamehoa12bai8amin.netlify.app/" }], labs: [], simulations: [] },
+                        { id: "l12_9", title: "Bài 9: Amino acid và Peptide", desc: "Tính chất lưỡng tính của amino acid.", games: [{ name: "Game Bài 9: Amino acid & Peptide", url: "https://gamehoa12bai9.netlify.app/" }], labs: [], simulations: [] },
+                        { id: "l12_10", title: "Bài 10: Protein và Enzyme", desc: "Cấu trúc và tính chất đặc trưng.", games: [], labs: [], simulations: [] },
+                        { id: "l12_11", title: "Bài 11: Ôn tập chương 3", desc: "Ôn tập hợp chất chứa nitrogen.", games: [], labs: [], simulations: [] }
+                    ]
+                },
+                { 
+                    chapter: "Chương 4: Polymer", 
+                    lessons: [
+                        { id: "l12_12", title: "Bài 12: Đại cương về Polymer", desc: "Khái niệm, phân loại và cấu trúc polymer.", games: [], labs: [], simulations: [] },
+                        { id: "l12_13", title: "Bài 13: Vật liệu Polymer", desc: "Chất dẻo, tơ, cao su, keo dán.", games: [], labs: [], simulations: [{ name: "PhET: Trạng thái vật chất", url: "https://phet.colorado.edu/sims/html/states-of-matter/latest/states-of-matter_all.html" }] }
+                    ]
+                },
+                { 
+                    chapter: "Chương 5: Pin điện và Điện phân", 
+                    lessons: [
+                        { id: "l12_15", title: "Bài 15: Thế điện cực và nguồn điện hóa học", desc: "Thế điện cực chuẩn, pin điện hóa.", games: [], labs: [], simulations: [{ name: "PhET: Điện áp Pin", url: "https://phet.colorado.edu/sims/html/battery-voltage/latest/battery-voltage_all.html" }] },
+                        { id: "l12_16", title: "Bài 16: Điện phân", desc: "Nguyên lí và ứng dụng điện phân.", games: [], labs: [], simulations: [] }
+                    ]
+                }
+            ]
+        };
+
+        let currentGrade = null;
+        let currentLessonObj = null;
+        let currentActivityUrl = "";
+        
+        // --- 1. DÁN CẤU HÌNH FIREBASE CỦA BẠN VÀO ĐÂY ---
+        // (Thay thế các dòng chữ bên dưới bằng thông tin lấy ở Bước 1)
+        const firebaseConfig = {
+            apiKey: "THAY_BANG_API_KEY_CUA_BAN",
+            authDomain: "THAY_BANG_AUTH_DOMAIN_CUA_BAN",
+            projectId: "THAY_BANG_PROJECT_ID_CUA_BAN",
+            storageBucket: "THAY_BANG_STORAGE_BUCKET_CUA_BAN",
+            messagingSenderId: "THAY_BANG_MESSAGING_SENDER_CUA_BAN",
+            appId: "THAY_BANG_APP_ID_CUA_BAN"
+        };
+        // ------------------------------------------------
+
+        let app, auth, db;
+        let currentUserData = null;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            initFirebase();
+            buildNavDropdowns();
+        });
+
+        function buildNavDropdowns() {
+            [10, 11, 12].forEach(grade => {
+                const container = document.getElementById(`nav-dropdown-${grade}`);
+                if (!container) return;
+                
+                let html = '';
+                curriculumData[grade].forEach(chapter => {
+                    html += `<div class="px-3 py-2 text-[10px] font-bold text-pink-600/80 uppercase tracking-wider mt-2 first:mt-0 border-b border-pink-50/50">${chapter.chapter}</div>`;
+                    chapter.lessons.forEach(lesson => {
+                        html += `
+                            <button onclick="window.selectSearchResult(${grade}, '${chapter.chapter.replace(/'/g, "\\'")}', '${lesson.id}')" class="w-full text-left px-3 py-2.5 mt-1 rounded-xl hover:bg-pink-50 flex items-start space-x-2.5 group transition-colors">
+                                <i class="fa-solid fa-caret-right text-slate-300 group-hover:text-pink-500 mt-0.5 transition-colors text-xs"></i>
+                                <span class="text-xs font-bold text-slate-700 group-hover:text-pink-700 line-clamp-2 w-full leading-relaxed">${lesson.title}</span>
+                            </button>
+                        `;
+                    });
+                });
+                container.innerHTML = html;
+            });
+        }
+
+        async function initFirebase() {
+            // Kiểm tra xem cấu hình có phải là mặc định không, nếu có thì dùng Local Storage
+            if (firebaseConfig.apiKey === "THAY_BANG_API_KEY_CUA_BAN") {
+                console.info("Đang chạy ở chế độ Offline/Local (Chưa điền cấu hình Firebase thực).");
+                const localUser = localStorage.getItem('kimanh_student_user');
+                if (localUser) {
+                    currentUserData = JSON.parse(localUser);
+                    updateUserUI();
+                } else {
+                    document.getElementById('login-modal').classList.remove('hidden');
+                }
+                setupAdminLogsListener();
+                return;
+            }
+
+            try {
+                // Khởi tạo Firebase
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+                
+                // Tự động đăng nhập ẩn danh để lấy ID thiết bị
+                await signInAnonymously(auth);
+                
+                if (auth.currentUser) {
+                    await checkUserProfile(auth.currentUser.uid);
+                    setupAdminLogsListener();
+                }
+            } catch(e) {
+                console.error("Lỗi hệ thống Firebase (Hãy chắc chắn bạn đã điền đúng firebaseConfig):", e);
+                // Dự phòng khi chưa cài đặt Firebase hoặc mất mạng
+                const localUser = localStorage.getItem('kimanh_student_user');
+                if (localUser) {
+                    currentUserData = JSON.parse(localUser);
+                    updateUserUI();
+                } else {
+                    document.getElementById('login-modal').classList.remove('hidden');
+                }
+                setupAdminLogsListener();
+            }
+        }
+
+        async function checkUserProfile(uid) {
+            const docRef = doc(db, 'students', uid);
+            try {
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    currentUserData = { id: uid, ...docSnap.data() };
+                    updateUserUI();
+                    window.logActivity("Truy cập trang web");
+                } else {
+                    // Cố gắng khôi phục từ local nếu có
+                    const localUser = localStorage.getItem('kimanh_student_user');
+                    if (localUser) {
+                        currentUserData = JSON.parse(localUser);
+                        // Cập nhật lên db
+                        await setDoc(docRef, { name: currentUserData.name, class: currentUserData.class, createdAt: new Date().toISOString() });
+                        updateUserUI();
+                        window.logActivity("Truy cập trang web");
+                    } else {
+                        document.getElementById('login-modal').classList.remove('hidden');
+                    }
+                }
+            } catch(e) {
+                console.warn("Lỗi hồ sơ:", e);
+                document.getElementById('login-modal').classList.remove('hidden');
+            }
+        }
+
+        window.submitLogin = async function() {
+            const name = document.getElementById('student-name').value.trim();
+            const className = document.getElementById('student-class').value.trim();
+            
+            if(!name || !className) {
+                window.showToast("Vui lòng nhập Tên và Lớp đầy đủ nhé!", "error");
+                return;
+            }
+            
+            const btn = document.getElementById('btn-login-submit');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang lưu...';
+            btn.disabled = true;
+            
+            const uid = (auth && auth.currentUser) ? auth.currentUser.uid : ('guest_' + Date.now());
+            const data = { name, class: className, createdAt: new Date().toISOString() };
+            
+            // Lưu local
+            localStorage.setItem('kimanh_student_user', JSON.stringify({ id: uid, ...data }));
+            currentUserData = { id: uid, ...data };
+
+            if(db && auth && auth.currentUser) {
+                try {
+                    await setDoc(doc(db, 'students', uid), data);
+                } catch(e) {
+                    console.warn("Chưa cấu hình Firestore hoàn tất:", e);
+                }
+            }
+            
+            document.getElementById('login-modal').classList.add('hidden');
+            updateUserUI();
+            window.showToast("Đăng nhập thành công!", "success");
+            btn.innerHTML = 'Bắt Đầu Học Ngay';
+            btn.disabled = false;
+            window.logActivity("Đăng nhập học sinh mới");
+        }
+
+        function updateUserUI() {
+            if(currentUserData && currentUserData.name) {
+                const display = document.getElementById('user-info-display');
+                const nameSpan = document.getElementById('header-student-name');
+                display.classList.remove('hidden');
+                display.classList.add('flex');
+                nameSpan.innerText = currentUserData.name;
+            }
+        }
+
+        window.logActivity = async function(action, details = "") {
+            if (!currentUserData) return;
+            // Local log fallback
+            try {
+                let localLogs = JSON.parse(localStorage.getItem('kimanh_local_logs') || '[]');
+                localLogs.unshift({
+                    name: currentUserData.name,
+                    class: currentUserData.class,
+                    action: action,
+                    details: details,
+                    timestamp: new Date()
+                });
+                if(localLogs.length > 50) localLogs = localLogs.slice(0, 50);
+                localStorage.setItem('kimanh_local_logs', JSON.stringify(localLogs));
+            } catch(e) {}
+
+            if (!auth || !auth.currentUser || !db) return;
+            try {
+                const logsRef = collection(db, 'access_logs');
+                await addDoc(logsRef, {
+                    userId: auth.currentUser.uid,
+                    name: currentUserData.name,
+                    class: currentUserData.class,
+                    action: action,
+                    details: details,
+                    timestamp: serverTimestamp()
+                });
+            } catch(e) {
+                console.warn("Lỗi ghi nhật ký mạng:", e);
+            }
+        }
+
+        function setupAdminLogsListener() {
+            if (!db) {
+                renderLocalLogs();
+                return;
+            }
+            try {
+                const logsRef = collection(db, 'access_logs');
+                onSnapshot(logsRef, (snapshot) => {
+                    let logs = [];
+                    snapshot.forEach(doc => logs.push({ id: doc.id, ...doc.data() }));
+                    logs.sort((a, b) => {
+                        const ta = a.timestamp && a.timestamp.toMillis ? a.timestamp.toMillis() : Date.now();
+                        const tb = b.timestamp && b.timestamp.toMillis ? b.timestamp.toMillis() : Date.now();
+                        return tb - ta; 
+                    });
+                    renderAdminLogs(logs);
+                }, (error) => {
+                    console.warn("Lỗi đọc dữ liệu Firestore, hiển thị local:", error);
+                    renderLocalLogs();
+                });
+            } catch(e) {
+                renderLocalLogs();
+            }
+        }
+
+        function renderLocalLogs() {
+            try {
+                const localLogs = JSON.parse(localStorage.getItem('kimanh_local_logs') || '[]');
+                const formattedLogs = localLogs.map(l => ({
+                    ...l,
+                    timestamp: { toDate: () => new Date(l.timestamp) }
+                }));
+                renderAdminLogs(formattedLogs);
+            } catch(e) {
+                renderAdminLogs([]);
+            }
+        }
+
+        function renderAdminLogs(logs) {
+            const tbody = document.getElementById('admin-logs-body');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+            
+            if(logs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-slate-400">Chưa có dữ liệu hoạt động.</td></tr>';
+                return;
+            }
+
+            logs.slice(0, 100).forEach(log => {
+                const dateObj = log.timestamp ? log.timestamp.toDate() : new Date();
+                const timeStr = dateObj.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+                const dateStr = dateObj.toLocaleDateString('vi-VN');
+                
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-100 hover:bg-slate-50 transition-colors";
+                tr.innerHTML = `
+                    <td class="py-3 px-6 text-xs text-slate-500 whitespace-nowrap"><span class="font-bold text-slate-800">${timeStr}</span> <br/>${dateStr}</td>
+                    <td class="py-3 px-6 font-bold text-pink-600">${log.name || 'Ẩn danh'}</td>
+                    <td class="py-3 px-6 text-xs font-semibold text-slate-600">${log.class || '-'}</td>
+                    <td class="py-3 px-6 text-slate-800 font-medium">${log.action} ${log.details ? `<span class="text-xs text-slate-500 font-normal">(${log.details})</span>` : ''}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        window.toggleMobileMenu = function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        window.navigateTo = function(viewId, param = null) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            
+            const targetView = document.getElementById(`view-${viewId}`);
+            if (targetView) {
+                targetView.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            if (viewId === 'grade' && param) {
+                currentGrade = param;
+                document.getElementById('grade-title-num').innerText = param;
+                document.getElementById('grade-title-text').innerText = param;
+                
+                // Dynamic grade badge accent colors
+                const badgeContainer = document.getElementById('grade-badge-container');
+                if(param === 10) badgeContainer.className = "w-12 h-12 rounded-2xl bg-rose-500 text-white font-display font-black text-2xl flex items-center justify-center shadow-lg shadow-rose-500/30";
+                else if(param === 11) badgeContainer.className = "w-12 h-12 rounded-2xl bg-pink-600 text-white font-display font-black text-2xl flex items-center justify-center shadow-lg shadow-pink-500/30";
+                else if(param === 12) badgeContainer.className = "w-12 h-12 rounded-2xl bg-purple-600 text-white font-display font-black text-2xl flex items-center justify-center shadow-lg shadow-purple-500/30";
+
+                renderLessonsList(param);
+                window.logActivity(`Xem Khối ${param}`);
+            } else if (viewId === 'home') {
+                window.logActivity("Về Trang chủ");
+            } else if (viewId === 'admin') {
+                window.logActivity("Mở Bảng Thống kê");
+            }
+        }
+
+        window.navigateBackToGrade = function() {
+            if (currentGrade) window.navigateTo('grade', currentGrade);
+            else window.navigateTo('home');
+        }
+
+        function renderLessonsList(grade) {
+            const container = document.getElementById('lessons-container');
+            container.innerHTML = '';
+            
+            const chapters = curriculumData[grade];
+            if (!chapters) {
+                container.innerHTML = '<p class="text-slate-400 col-span-full text-center py-12">Nội dung đang được cập nhật...</p>';
+                return;
+            }
+
+            chapters.forEach(chapter => {
+                chapter.lessons.forEach(lesson => {
+                    const card = document.createElement('div');
+                    card.className = "glass-card-light rounded-3xl p-6 border border-slate-200/80 hover:border-pink-400 transition-all group flex flex-col justify-between h-full";
+                    
+                    const gameCount = (lesson.games || []).length;
+                    const labCount = (lesson.labs || []).length;
+                    const simCount = (lesson.simulations || []).length;
+
+                    card.innerHTML = `
+                        <div>
+                            <span class="inline-block px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 text-[11px] font-bold mb-3 border border-slate-200 truncate max-w-full">${chapter.chapter}</span>
+                            <h3 class="font-display text-lg font-bold text-slate-900 group-hover:text-pink-600 transition-colors leading-snug mb-2">${lesson.title}</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed line-clamp-2 mb-4 font-medium">${lesson.desc}</p>
+                            
+                            <div class="flex flex-wrap gap-1.5 text-[11px] font-bold mb-6">
+                                <span class="px-2 py-0.5 rounded-md ${gameCount > 0 ? 'bg-pink-50 text-pink-700 border border-pink-200' : 'bg-slate-100 text-slate-400'}"><i class="fa-solid fa-gamepad mr-1"></i> ${gameCount} Game</span>
+                                <span class="px-2 py-0.5 rounded-md ${labCount > 0 ? 'bg-rose-50 text-rose-700 border border-rose-200' : 'bg-slate-100 text-slate-400'}"><i class="fa-solid fa-vials mr-1"></i> ${labCount} TN Ảo</span>
+                                <span class="px-2 py-0.5 rounded-md ${simCount > 0 ? 'bg-purple-50 text-purple-700 border border-purple-200' : 'bg-slate-100 text-slate-400'}"><i class="fa-solid fa-microscope mr-1"></i> ${simCount} Mô phỏng</span>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-100">
+                            <button onclick="window.openLessonDetail('${chapter.chapter}', \`${lesson.id}\`)" class="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-pink-600 text-slate-700 hover:text-white font-bold text-xs transition-all flex items-center justify-center space-x-2 shadow-sm">
+                                <span>Vào học ngay</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            });
+        }
+
+        window.openLessonDetail = function(chapter, lessonId) {
+            let foundLesson = null;
+            const chapters = curriculumData[currentGrade];
+            for(let ch of chapters) {
+                const l = ch.lessons.find(item => item.id === lessonId);
+                if(l) { foundLesson = l; break; }
+            }
+
+            if(!foundLesson) return;
+            currentLessonObj = foundLesson;
+
+            document.getElementById('back-grade-text').innerText = currentGrade;
+            document.getElementById('lesson-chapter').innerText = chapter;
+            document.getElementById('lesson-title').innerText = foundLesson.title;
+            document.getElementById('lesson-desc').innerText = foundLesson.desc;
+            
+            // Cập nhật số lượng hoạt động
+            const gameCount = (foundLesson.games || []).length;
+            const labCount = (foundLesson.labs || []).length;
+            const simCount = (foundLesson.simulations || []).length;
+
+            const badgeGame = document.getElementById('badge-game-count');
+            const badgeLab = document.getElementById('badge-lab-count');
+            const badgeSim = document.getElementById('badge-sim-count');
+
+            // Game Badge
+            if (gameCount > 0) {
+                badgeGame.innerText = `${gameCount} Game`;
+                badgeGame.classList.remove('hidden');
+                document.getElementById('btn-game').classList.remove('opacity-60', 'grayscale');
+            } else {
+                badgeGame.classList.add('hidden');
+                // document.getElementById('btn-game').classList.add('opacity-60', 'grayscale'); // Tùy chọn làm mờ nếu không có
+            }
+
+            // Lab Badge
+            if (labCount > 0) {
+                badgeLab.innerText = `${labCount} TN`;
+                badgeLab.classList.remove('hidden');
+                document.getElementById('btn-lab').classList.remove('opacity-60', 'grayscale');
+            } else {
+                badgeLab.classList.add('hidden');
+                // document.getElementById('btn-lab').classList.add('opacity-60', 'grayscale'); // Tùy chọn làm mờ nếu không có
+            }
+
+            // Sim Badge
+            if (simCount > 0) {
+                badgeSim.innerText = `${simCount} Mục`;
+                badgeSim.classList.remove('hidden');
+                document.getElementById('btn-sim').classList.remove('opacity-60', 'grayscale');
+            } else {
+                badgeSim.classList.add('hidden');
+                // document.getElementById('btn-sim').classList.add('opacity-60', 'grayscale'); // Tùy chọn làm mờ nếu không có
+            }
+
+            document.getElementById('btn-game').onclick = () => window.openActivityList('Game Học Tập', foundLesson.games || []);
+            document.getElementById('btn-lab').onclick = () => window.openActivityList('Thí Nghiệm Ảo', foundLesson.labs || []);
+            document.getElementById('btn-sim').onclick = () => window.openActivityList('Thí Nghiệm Mô Phỏng', foundLesson.simulations || []);
+
+            window.navigateTo('lesson');
+            window.logActivity(`Mở bài học`, foundLesson.title);
+        }
+
+        window.openActivityList = function(activityType, list) {
+            if(!list || list.length === 0) {
+                window.openModal(activityType, null);
+                return;
+            }
+
+            if(list.length === 1) {
+                window.openModal(`${activityType}: ${list[0].name}`, list[0].url);
+            } else {
+                window.openMultiSelectModal(activityType, list);
+            }
+        }
+
+        window.openMultiSelectModal = function(activityType, list) {
+            const modal = document.getElementById('activity-modal');
+            document.getElementById('modal-title').innerText = `Danh sách ${activityType}`;
+            document.getElementById('modal-lesson-ref').innerText = currentLessonObj ? currentLessonObj.title : '';
+            document.getElementById('modal-icon').innerHTML = `<i class="fa-solid fa-list-check"></i>`;
+            
+            const modalBody = document.getElementById('modal-body-content');
+            let listHtml = `
+                <div class="p-6 sm:p-10 max-w-2xl mx-auto w-full space-y-4">
+                    <h4 class="text-base sm:text-lg font-bold text-white text-center mb-6">Chọn nội dung muốn học tập:</h4>
+                    <div class="space-y-3">
+            `;
+
+            list.forEach((item, index) => {
+                listHtml += `
+                    <button onclick="window.openModal('${item.name}', '${item.url}')" class="w-full text-left bg-slate-900 p-4 rounded-2xl border border-slate-800 hover:border-pink-500 hover:bg-slate-800/80 transition-all flex items-center justify-between group">
+                        <div class="flex items-center space-x-3.5">
+                            <span class="w-8 h-8 rounded-xl bg-pink-500/20 text-pink-400 font-bold flex items-center justify-center text-sm">${index + 1}</span>
+                            <span class="font-bold text-slate-200 group-hover:text-pink-300 transition-colors text-sm sm:text-base">${item.name}</span>
+                        </div>
+                        <i class="fa-solid fa-circle-play text-2xl text-pink-400 group-hover:scale-110 transition-transform"></i>
+                    </button>
+                `;
+            });
+
+            listHtml += `</div></div>`;
+            modalBody.innerHTML = listHtml;
+            modal.classList.remove('hidden');
+        }
+
+        window.openModal = function(title, url) {
+            currentActivityUrl = url;
+            const modal = document.getElementById('activity-modal');
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-lesson-ref').innerText = currentLessonObj ? currentLessonObj.title : '';
+            document.getElementById('modal-icon').innerHTML = `<i class="fa-solid fa-play"></i>`;
+            
+            const modalBody = document.getElementById('modal-body-content');
+            if (url && url.trim() !== "") {
+                modalBody.innerHTML = `<iframe src="${url}" class="w-full h-full border-0 bg-slate-950" allow="autoplay; fullscreen; clipboard-write" allowfullscreen></iframe>`;
+            } else {
+                modalBody.innerHTML = `
+                    <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-8 bg-slate-900">
+                        <div class="text-5xl text-slate-600 mb-4"><i class="fa-solid fa-link-slash"></i></div>
+                        <h4 class="text-xl font-bold text-white mb-2">Chưa có liên kết</h4>
+                        <p class="text-slate-400 text-sm max-w-md">Nội dung này đang được biên soạn thêm. Em vui lòng quay lại sau nhé!</p>
+                        <button onclick="window.closeModal()" class="mt-6 px-6 py-2.5 rounded-xl bg-slate-800 text-slate-200 font-semibold text-sm hover:bg-slate-700 transition-colors">Đóng cửa sổ</button>
+                    </div>
+                `;
+            }
+            
+            modal.classList.remove('hidden');
+            window.logActivity(`Mở trải nghiệm: ${title}`);
+        }
+
+        window.openCurrentUrlInNewTab = function() {
+            if(currentActivityUrl && currentActivityUrl.trim() !== "") {
+                window.open(currentActivityUrl, '_blank');
+            }
+        }
+
+        window.toggleFullScreen = function() {
+            const modalOuter = document.getElementById('activity-modal');
+            const modalWrapper = document.getElementById('activity-modal-wrapper');
+            const modalInner = document.getElementById('activity-modal-inner');
+            const btnIcon = document.querySelector('#btn-fullscreen i');
+            
+            const isFullScreen = modalOuter.classList.contains('is-faux-fullscreen');
+
+            if (!isFullScreen) {
+                modalOuter.classList.add('is-faux-fullscreen');
+                modalOuter.classList.remove('p-2', 'sm:p-4');
+                modalWrapper.classList.remove('max-w-6xl', 'my-auto');
+                modalWrapper.classList.add('h-full');
+                modalInner.classList.remove('rounded-3xl', 'max-h-[820px]', 'h-[85vh]');
+                modalInner.classList.add('h-full', 'rounded-none');
+                if(btnIcon) btnIcon.className = "fa-solid fa-compress";
+            } else {
+                modalOuter.classList.remove('is-faux-fullscreen');
+                modalOuter.classList.add('p-2', 'sm:p-4');
+                modalWrapper.classList.add('max-w-6xl', 'my-auto');
+                modalWrapper.classList.remove('h-full');
+                modalInner.classList.add('rounded-3xl', 'max-h-[820px]', 'h-[85vh]');
+                modalInner.classList.remove('h-full', 'rounded-none');
+                if(btnIcon) btnIcon.className = "fa-solid fa-expand";
+            }
+        }
+
+        window.closeModal = function() {
+            const modalOuter = document.getElementById('activity-modal');
+            modalOuter.classList.add('hidden');
+            document.getElementById('modal-body-content').innerHTML = '';
+            
+            if (modalOuter.classList.contains('is-faux-fullscreen')) {
+                window.toggleFullScreen();
+            }
+        }
+
+        /* Global Search Handler */
+        window.handleGlobalSearch = function(query) {
+            const dropdown = document.getElementById('search-results-dropdown');
+            const clearBtn = document.getElementById('search-clear-btn');
+            
+            if(!query || query.trim() === '') {
+                dropdown.classList.add('hidden');
+                clearBtn.classList.add('hidden');
+                return;
+            }
+
+            clearBtn.classList.remove('hidden');
+            const searchTerm = query.toLowerCase().trim();
+            let matches = [];
+
+            [10, 11, 12].forEach(grade => {
+                curriculumData[grade].forEach(chapter => {
+                    chapter.lessons.forEach(lesson => {
+                        if(lesson.title.toLowerCase().includes(searchTerm) || lesson.desc.toLowerCase().includes(searchTerm)) {
+                            matches.push({ grade, chapter: chapter.chapter, ...lesson });
+                        }
+                    });
+                });
+            });
+
+            if(matches.length === 0) {
+                dropdown.innerHTML = `<div class="p-4 text-center text-slate-500 text-xs font-semibold">Không tìm thấy bài học phù hợp.</div>`;
+            } else {
+                dropdown.innerHTML = matches.slice(0, 6).map(item => `
+                    <button onclick="window.selectSearchResult(${item.grade}, '${item.chapter.replace(/'/g, "\\'")}', '${item.id}')" class="w-full text-left p-3 rounded-xl hover:bg-pink-50 flex items-center justify-between group transition-colors">
+                        <div>
+                            <div class="text-xs font-bold text-pink-600">Khối ${item.grade} • ${item.chapter}</div>
+                            <div class="text-sm font-bold text-slate-800 group-hover:text-pink-700">${item.title}</div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-xs text-slate-400 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                `).join('');
+            }
+
+            dropdown.classList.remove('hidden');
+        }
+
+        window.clearSearch = function() {
+            document.getElementById('global-search-input').value = '';
+            document.getElementById('search-results-dropdown').classList.add('hidden');
+            document.getElementById('search-clear-btn').classList.add('hidden');
+        }
+
+        window.selectSearchResult = function(grade, chapter, lessonId) {
+            window.clearSearch();
+            currentGrade = grade;
+            window.openLessonDetail(chapter, lessonId);
+        }
+
+        window.showToast = function(message, type = 'error') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const bgColor = type === 'error' ? 'bg-rose-500' : 'bg-pink-600';
+            const icon = type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-check';
+            
+            toast.className = `${bgColor} text-white px-5 py-3 rounded-xl shadow-2xl transition-all duration-300 flex items-center space-x-3 text-sm font-bold`;
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i><span>${message}</span>`;
+            
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3200);
+        }
+    </script>
+</body>
+</html>
